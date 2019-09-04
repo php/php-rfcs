@@ -310,9 +310,11 @@ class ReflectionUnionType extends ReflectionType {
     /** @return ReflectionType[] */
     public function getTypes();
 
+    /* Inherited from ReflectionType */
     /** @return bool */
     public function allowsNull();
 
+    /* Inherited from ReflectionType */
     /** @return string */
     public function __toString();
 }
