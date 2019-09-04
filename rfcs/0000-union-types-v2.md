@@ -144,9 +144,11 @@ Union types follow the existing variance rules:
  * Parameter types are contravariant (child must be supertype).
  * Property types are invariant (child must be subtype and supertype).
 
-The only change is in how union types interact with subtyping. A union `U_1|...|U_n` is a subtype of `V_1|...|V_n` if for each `U_i` there exists a `V_j` such that `U_i` is a subtype of `V_j`.
+The only change is in how union types interact with subtyping, with three additional rules:
 
-Additionally, the `iterable` type is considered to be the same (i.e. both subtype and supertype) as `array|Traversable`.
+ * A union `U_1|...|U_n` is a subtype of `V_1|...|V_n` if for each `U_i` there exists a `V_j` such that `U_i` is a subtype of `V_j`.
+ * The `iterable` type is considered to be the same (i.e. both subtype and supertype) as `array|Traversable`.
+ * The `false` pseudo-type is considered a subtype of `bool`.
 
 In the following, some examples of what is allowed and what isn't are given.
 
