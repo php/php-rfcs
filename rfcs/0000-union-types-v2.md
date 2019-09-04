@@ -314,7 +314,7 @@ For example, the type `int|string` may return types in the order `["string", "in
 
 The `allowsNull()` method returns whether the union additionally contains the type null. A possible alternative would be to introduce a separate `ReflectionNullableType` to represent the `?T` wrapper explicitly. I would prefer this, but we would probably not be able to use it for non-union types for backwards compatibility reasons.
 
-The `__toString()` method returns a string representation of the type that constitus a valid code representation of the type in a non-namespaced context. It is not necessarily the same as what was used in the original code. Notably this *will* contain the leading `?` for nullable types and not be bug-compatible with `ReflectionNamedType`.
+The `__toString()` method returns a string representation of the type that constitutes a valid code representation of the type in a non-namespaced context. It is not necessarily the same as what was used in the original code. Notably this *will* contain the leading `?` for nullable types and not be bug-compatible with `ReflectionNamedType`.
 
 # Backwards Incompatible Changes
 
