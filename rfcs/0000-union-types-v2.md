@@ -328,6 +328,25 @@ The `allowsNull()` method returns whether the union additionally contains the ty
 
 The `__toString()` method returns a string representation of the type that constitutes a valid code representation of the type in a non-namespaced context. It is not necessarily the same as what was used in the original code. Notably this *will* contain the leading `?` for nullable types and not be bug-compatible with `ReflectionNamedType`.
 
+### Examples
+
+```php
+function test(): float|int {}
+function test2(): ?(float|int) {}
+
+// This is one possible output, getTypes() and __toString() could
+// also provide the types in the reverse order instead.
+$rt = new ReflectionFunction('test')->getReturnType();
+var_dump($rt->allowsNull()); // false
+var_dump($rt->getTypes()); // [ReflectionType("int"), ReflectionType("float")]
+var_dump((string) $rt); // "int|float"
+
+$rt2 = new ReflectionFunction('test')->getReturnType();
+var_dump($rt->allowsNull()); // true
+var_dump($rt->getTypes()); // [ReflectionType("int"), ReflectionType("float")]
+var_dump((string) $rt); // "?(int|float)"
+```
+
 # Backwards Incompatible Changes
 
 This RFC does not contain any backwards incompatible changes. However, existing ReflectionType based code will have to be adjusted in order to support processing of code that uses union types.
