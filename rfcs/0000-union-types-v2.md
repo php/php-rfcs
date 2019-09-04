@@ -269,7 +269,7 @@ References to typed properties with union types follow the semantics outlined in
 >
 > There is one additional caveat: If a type check requires a coercion of the assigned value, it may happen that all type checks succeed, but result in different coerced values. As a reference can only have a single value, this situation also leads to a TypeError.
 
-The [interaction with union types](https://wiki.php.net/rfc/typed_properties_v2#future_interaction_with_union_types) was already considered at the time, because it impacts the the detailed reference semantics. Repeating the example given there:
+The [interaction with union types](https://wiki.php.net/rfc/typed_properties_v2#future_interaction_with_union_types) was already considered at the time, because it impacts the detailed reference semantics. Repeating the example given there:
 
 ```php
 class Test {
@@ -384,5 +384,5 @@ In the PHP stubs for internal functions (these are incomplete right now, so the 
   * 336 union return types
   * of which 312 include `false` as a value
 
-This illustrates that the `false` pseudo-type in unions is nececessary to express the return type of many existing internal functions.
+This illustrates that the `false` pseudo-type in unions is necessary to express the return type of many existing internal functions.
 
