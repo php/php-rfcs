@@ -98,11 +98,21 @@ An alternative would be to allow an explicit `null` type for use in unions only,
 
 ### Duplicate types
 
-Each literal type may only occur once inside a union. As such, types like `int|string|INT` are not permitted. Additionally, only one of `false` and `bool` may be used.
+Each name-resolved type may only occur once inside a union. As such, types like `int|string|INT` are not permitted. Additionally, only one of `false` and `bool` may be used.
 
 This is a purely syntactical restriction that is intended to catch simple bugs in the type specification. It does not ensure that the union type is in some sense "minimal".
 
 For example, if `A` and `B` are class aliases, then `A|B` remains a legal union type, even though it could be reduced to either `A` or `B`. Similarly, if `class B extends A {}`, then `A|B` is also a legal union type, even though it could be reduced to just `A`. Detecting these cases would require loading all types at the point of declaration.
+
+```php
+function foo(): int|INT {} // Disallowed
+
+use A as B;
+function foo(): A|B {} // Disallowed ("use" is part of name resolution)
+
+class_alias('X', 'Y');
+function foo(): X|Y {} // Allowed (redundancy is only known at runtime)
+```
 
 ### Type grammar
 
