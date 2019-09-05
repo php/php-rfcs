@@ -347,12 +347,12 @@ function test2(): ?(float|int) {}
 
 // This is one possible output, getTypes() and __toString() could
 // also provide the types in the reverse order instead.
-$rt = new ReflectionFunction('test')->getReturnType();
+$rt = (new ReflectionFunction('test'))->getReturnType();
 var_dump($rt->allowsNull()); // false
 var_dump($rt->getTypes()); // [ReflectionType("int"), ReflectionType("float")]
 var_dump((string) $rt); // "int|float"
 
-$rt2 = new ReflectionFunction('test')->getReturnType();
+$rt2 = (new ReflectionFunction('test2'))->getReturnType();
 var_dump($rt->allowsNull()); // true
 var_dump($rt->getTypes()); // [ReflectionType("int"), ReflectionType("float")]
 var_dump((string) $rt); // "?(int|float)"
