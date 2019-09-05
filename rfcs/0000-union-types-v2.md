@@ -2,7 +2,8 @@
  * Date: 2019-09-02
  * Author: Nikita Popov <nikic@php.net>
  * Proposed Version: PHP 8.0
- * RFC PR: [php-src/rfcs#0000](https://github.com/php-src/rfcs/pull/0000)
+ * RFC PR: [php/php-rfcs#0001](https://github.com/php/php-rfcs/pull/1)
+ * Mailing list thread: https://externals.io/message/106844
 
 # Introduction
 
