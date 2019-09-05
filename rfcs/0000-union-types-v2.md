@@ -363,6 +363,8 @@ This RFC does not contain any backwards incompatible changes. However, existing 
 
 # Future Scope
 
+The features discussed in the following are **not** part of this proposal.
+
 ## Intersection Types
 
 Intersection types are logically conjugated with union types. Instead of requiring that (at least) a single type constraints is satisfied, all of them must be.
