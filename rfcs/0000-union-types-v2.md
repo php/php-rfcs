@@ -260,6 +260,18 @@ If the type both exists in the union, and the value can be coerced to the type u
 
 As an exception, if the value is a string and both `int` and `float` are part of the union, the preferred type is determined by the existing "numeric string" semantics. For example, for `"42"` we choose `int`, while for `"42.0"` we choose `float`.
 
+### Conversion Table
+
+The following table shows how the above order of preference plays out for different input types, assuming that the exact type is not part of the union:
+
+Original type | 1st try | 2nd try | 3rd try
+--------|-------|--------|-------
+bool    | int   | float  | string
+int     | float | string | bool
+float   | int   | string | bool
+string  | int/float | bool
+object  | string
+
 ### Examples
 
 ```php
