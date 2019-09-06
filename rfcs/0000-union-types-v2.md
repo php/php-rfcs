@@ -110,6 +110,7 @@ To catch some simple bugs in union type declarations, redundant types that can b
   * Each name-resolved type may only occur once. Types like `int|string|INT` result in an error.
   * If `bool` is used, `false` cannot be used additionally.
   * If `object` is used, class types cannot be used additionally.
+  * If `iterable` is used, `array` and `Traversable` cannot be used additionally.
 
 This does not guarantee that the type is "minimal", because doing so would require loading all used class types.
 
