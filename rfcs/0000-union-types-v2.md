@@ -97,16 +97,21 @@ Nullable types in PHP use the syntax `?T`. Nullable union types are required to 
 
 An alternative would be to allow an explicit `null` type for use in unions only, such that the above example could be written `T1|T2|null`, and the existing syntax `?T` could be written `T|null`. While this might have been a good option if union types were introduced earlier, I think it is preferable not to introduce a second type nullability syntax at this point in time.
 
-### Duplicate types
+### Duplicate and redundant types
 
-Each name-resolved type may only occur once inside a union. As such, types like `int|string|INT` are not permitted. Additionally, only one of `false` and `bool` may be used.
+To catch some simple bugs in union type declarations, redundant types that can be detected without performing class loading will result in a compile-time error. This includes:
 
-This is a purely syntactical restriction that is intended to catch simple bugs in the type specification. It does not ensure that the union type is in some sense "minimal".
+  * Each name-resolved type may only occur once. Types like `int|string|INT` result in an error.
+  * If `bool` is used, `false` cannot be used additionally.
+  * If `object` is used, class types cannot be used additionally.
 
-For example, if `A` and `B` are class aliases, then `A|B` remains a legal union type, even though it could be reduced to either `A` or `B`. Similarly, if `class B extends A {}`, then `A|B` is also a legal union type, even though it could be reduced to just `A`. Detecting these cases would require loading all types at the point of declaration.
+This does not guarantee that the type is "minimal", because doing so would require loading all used class types.
+
+For example, if `A` and `B` are class aliases, then `A|B` remains a legal union type, even though it could be reduced to either `A` or `B`. Similarly, if `class B extends A {}`, then `A|B` is also a legal union type, even though it could be reduced to just `A`.
 
 ```php
 function foo(): int|INT {} // Disallowed
+function foo(): bool|false {} // Disallowed
 
 use A as B;
 function foo(): A|B {} // Disallowed ("use" is part of name resolution)
