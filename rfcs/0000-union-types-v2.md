@@ -301,7 +301,7 @@ true  --> 1           // bool compatible with int
 
 There are two main alternatives to the preference-based approach used by this proposal:
 
-The first is to specify that union types *always* use strict typing, thus avoiding any complicated coercion semantics altogether. Apart from the inconsistency this introduces in the language, this has two main disadvantages: First going from a type like `int` to `int|float` would actually *reduce* the number of valid inputs, which is highly unintuitive. Second, it breaks the variance model for union types, because we can no longer say that `int` is a subtype of `int|float`.
+The first is to specify that union types *always* use strict typing, thus avoiding any complicated coercion semantics altogether. Apart from the inconsistency this introduces in the language, this has two main disadvantages: First going from a type like `float` to `int|float` would actually *reduce* the number of valid inputs, which is highly unintuitive. Second, it breaks the variance model for union types, because we can no longer say that `float` is a subtype of `int|float`.
 
 The second is to perform the coercions based on the order of types. This would mean that `int|string` and `string|int` are distinct types, where the former would favor integers and the latter strings. Depending on whether exact type matches are still prioritized, the string type would *always* be used for the latter case. Once again, this is unintuitive and has very unclear implications for the subtyping relationship on which variance is based.
 
