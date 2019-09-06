@@ -93,9 +93,15 @@ The `false` pseudo-type cannot be used as a standalone type, it can only be used
 
 ### Nullable union types
 
-Nullable types in PHP use the syntax `?T`. Nullable union types are required to be written as `?(T1|T2)`, while variations such as `?T1|T2`, `T1|?T2` or even `?T1|?T2` are disallowed. This avoids issues of "symmetry" where the nullability is syntactically associated with a specific type, while in reality it could equally apply to all.
+The `null` type is supported as part of unions, such that `T1|T2|null` can be used to create a nullable union. The existing `?T` notation is considered a shorthand for the common case of `T|null`.
 
-An alternative would be to allow an explicit `null` type for use in unions only, such that the above example could be written `T1|T2|null`, and the existing syntax `?T` could be written `T|null`. While this might have been a good option if union types were introduced earlier, I think it is preferable not to introduce a second type nullability syntax at this point in time.
+An earlier version of this RFC proposed to use `?(T1|T2)` for nullable union types instead, to avoid having two ways of expressing nullability in PHP. However, this notation is both rather awkward syntactically, and differs from the well-established `T1|T2|null` syntax used by phpdoc comments. The discussion feedback was overwhelmingly in favor of supporting the `T1|T2|null` notation.
+
+`?T` remains valid syntax that denotes the same type as `T|null`. It is neither discouraged nor deprecated, and there are no plans to deprecate it in the future. It is merely a shorthand alias for a particularly common union type.
+
+The `null` type is only allowed as part of a union, and can not be used as a standalone type. Allowing it as a standalone type would make both `function foo(): void` and `function foo(): null` legal function signatures, with similar but not identical semantics. This would negatively impact teachability for an unclear benefit.
+
+Union types and the `?T` nullable type notation cannot be mixed. Writing `?T1|T2`, `T1|?T2` or `?(T1|T2)` is not supported and `T1|T2|null` needs to be used instead. I'm open to permitting the `?(T1|T2)` syntax though, if this is considered desirable.
 
 ### Duplicate and redundant types
 
@@ -126,9 +132,8 @@ Excluding the special `void` type, PHP's type syntax may now be described by the
 
 ```
 type: simple_type
-    | union_type
     | "?" simple_type
-    | "?" "(" union_type ")"
+    | union_type
     ;
 
 union_type: simple_type "|" simple_type
@@ -136,6 +141,7 @@ union_type: simple_type "|" simple_type
           ;
 
 simple_type: "false"          # only legal in unions
+           | "null"           # only legal in unions
            | "bool"
            | "int"
            | "float"
@@ -340,27 +346,38 @@ The `getTypes()` method returns an array of `ReflectionType`s that are part of t
 
 For example, the type `int|string` may return types in the order `["string", "int"]` instead. The type `iterable|array|string` might be canonicalized to `iterable|string` or `Traversable|array|string`. The only requirement on the Reflection API is that the ultimately represented type is equivalent.
 
-The `allowsNull()` method returns whether the union additionally contains the type null. A possible alternative would be to introduce a separate `ReflectionNullableType` to represent the `?T` wrapper explicitly. I would prefer this, but we would probably not be able to use it for non-union types for backwards compatibility reasons.
+The `allowsNull()` method returns whether the union contains the type `null`.
 
-The `__toString()` method returns a string representation of the type that constitutes a valid code representation of the type in a non-namespaced context. It is not necessarily the same as what was used in the original code. Notably this *will* contain the leading `?` for nullable types and not be bug-compatible with `ReflectionNamedType`.
+The `__toString()` method returns a string representation of the type that constitutes a valid code representation of the type in a non-namespaced context. It is not necessarily the same as what was used in the original code.
+
+For backwards-compatibility reasons, union types that only include `null` and one other type (written as `?T`, `T|null`, or through implicit parameter nullability), will instead use `ReflectionNamedType`.
 
 ### Examples
 
 ```php
-function test(): float|int {}
-function test2(): ?(float|int) {}
-
 // This is one possible output, getTypes() and __toString() could
 // also provide the types in the reverse order instead.
+function test(): float|int {}
 $rt = (new ReflectionFunction('test'))->getReturnType();
+var_dump(get_class($rt));    // "ReflectionUnionType"
 var_dump($rt->allowsNull()); // false
-var_dump($rt->getTypes()); // [ReflectionType("int"), ReflectionType("float")]
-var_dump((string) $rt); // "int|float"
+var_dump($rt->getTypes());   // [ReflectionType("int"), ReflectionType("float")]
+var_dump((string) $rt);      // "int|float"
 
-$rt2 = (new ReflectionFunction('test2'))->getReturnType();
+function test2(): float|int|null {}
+$rt = (new ReflectionFunction('test2'))->getReturnType();
+var_dump(get_class($rt));    // "ReflectionUnionType"
 var_dump($rt->allowsNull()); // true
-var_dump($rt->getTypes()); // [ReflectionType("int"), ReflectionType("float")]
-var_dump((string) $rt); // "?(int|float)"
+var_dump($rt->getTypes());   // [ReflectionType("int"), ReflectionType("float"),
+                             //  ReflectionType("null")]
+var_dump((string) $rt); // "int|float|null"
+
+function test3(): int|null {}
+$rt = (new ReflectionFunction('test3'))->getReturnType();
+var_dump(get_class($rt));    // "ReflectionNamedType"
+var_dump($rt->allowsNull()); // true
+var_dump($rt->getName());    // "int"
+var_dump((string) $rt);      // "int" (deprecated)
 ```
 
 # Backwards Incompatible Changes
