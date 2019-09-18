@@ -101,7 +101,7 @@ While it would be possible to model this less accurately as `int|bool`, this giv
 
 For this reason, support for the `false` pseudo-type is included in this proposal. A `true` pseudo-type is *not* part of the proposal, because similar historical reasons for its necessity do not exist.
 
-The `false` pseudo-type cannot be used as a standalone type, it can only be used as part of a union.
+The `false` pseudo-type cannot be used as a standalone type (including nullable standalone type). As such, all of `false`, `false|null` and `?false` are not permitted.
 
 ### Duplicate and redundant types
 
