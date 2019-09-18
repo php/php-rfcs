@@ -422,7 +422,12 @@ type ArrayFilterFlags = 0|ARRAY_FILTER_USE_KEY|ARRAY_FILTER_USE_BOTH;
 array_filter(array $array, callable $callback, ArrayFilterFlags $flag): array;
 ```
 
-Proper enums are likely a better solution to this problem space, though depending on the implementation they may not be retrofitted to existing functions for backwards-compatibility reasons.
+A benefit of using a union of literal types instead of an enum, is that it works directly with values of the underlying type, rather than an opaque enum value. As such, it is easier to retrofit without breaking backwards-compatibility.
+
+This RFC intentionally supports the `false` type in a maximally restricted form, which is enough to model internal function return values, but avoids unnecessarily constraining a future proposal for introducing first-class literal types. In particular:
+
+ * No values implicitly coerce to `false`, while it would also be possible to follow `bool` parameter coercion semantics, restricted to input values that coerce to `false`. Both approaches have advantages, but we pick the conservative option, which permits future extension, here.
+ * Only `false` is supported, but not `true`. Once both are supported, the subtyping relationship between `false|true` and `bool` needs to be defined (which is also tightly related to the question of implicit coercions).
 
 ## Type Aliases
 
