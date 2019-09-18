@@ -157,8 +157,6 @@ simple_type: "false"          # only legal in unions
            ;
 ```
 
-At this point in time, parentheses in types are only allowed in the one case where they are necessary, which is the `?(T1|T2|...)` syntax. With further extensions to the type system (such as intersection types) it may make sense to allow parentheses in more arbitrary positions.
-
 ## Variance
 
 Union types follow the existing variance rules:
