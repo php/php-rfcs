@@ -79,18 +79,6 @@ The `void` type indicates that the function has no return value, and enforces th
 
 What is likely intended instead is `?T`, which allows returning either `T` or `null`.
 
-### `false` pseudo-type
-
-While we nowadays encourage the use of `null` over `false` as an error or absence return value, for historical reasons many internal functions continue to use `false` instead. As shown in the [statistics section](#statistics), the vast majority of union return types for internal functions include `false`.
-
-A classical example is the `strpos()` family of functions, which returns `int|false`.
-
-While it would be possible to model this less accurately as `int|bool`, this gives the false impression that the function can also return a `true` value, which makes this type information significantly less useful to humans and static analyzers both.
-
-For this reason, support for the `false` pseudo-type is included in this proposal. A `true` pseudo-type is *not* part of the proposal, because similar historical reasons for its necessity do not exist.
-
-The `false` pseudo-type cannot be used as a standalone type, it can only be used as part of a union.
-
 ### Nullable union types
 
 The `null` type is supported as part of unions, such that `T1|T2|null` can be used to create a nullable union. The existing `?T` notation is considered a shorthand for the common case of `T|null`.
@@ -102,6 +90,18 @@ An earlier version of this RFC proposed to use `?(T1|T2)` for nullable union typ
 The `null` type is only allowed as part of a union, and can not be used as a standalone type. Allowing it as a standalone type would make both `function foo(): void` and `function foo(): null` legal function signatures, with similar but not identical semantics. This would negatively impact teachability for an unclear benefit.
 
 Union types and the `?T` nullable type notation cannot be mixed. Writing `?T1|T2`, `T1|?T2` or `?(T1|T2)` is not supported and `T1|T2|null` needs to be used instead. I'm open to permitting the `?(T1|T2)` syntax though, if this is considered desirable.
+
+### `false` pseudo-type
+
+While we nowadays encourage the use of `null` over `false` as an error or absence return value, for historical reasons many internal functions continue to use `false` instead. As shown in the [statistics section](#statistics), the vast majority of union return types for internal functions include `false`.
+
+A classical example is the `strpos()` family of functions, which returns `int|false`.
+
+While it would be possible to model this less accurately as `int|bool`, this gives the false impression that the function can also return a `true` value, which makes this type information significantly less useful to humans and static analyzers both.
+
+For this reason, support for the `false` pseudo-type is included in this proposal. A `true` pseudo-type is *not* part of the proposal, because similar historical reasons for its necessity do not exist.
+
+The `false` pseudo-type cannot be used as a standalone type, it can only be used as part of a union.
 
 ### Duplicate and redundant types
 
