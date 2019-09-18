@@ -259,6 +259,8 @@ If the type both exists in the union, and the value can be coerced to the type u
 
 As an exception, if the value is a string and both `int` and `float` are part of the union, the preferred type is determined by the existing "numeric string" semantics. For example, for `"42"` we choose `int`, while for `"42.0"` we choose `float`.
 
+Types that are not part of the above preference list are not eligible targets for implicit coercion. In particular no implicit coercions to the `null` and `false` types occur.
+
 ### Conversion Table
 
 The following table shows how the above order of preference plays out for different input types, assuming that the exact type is not part of the union:
