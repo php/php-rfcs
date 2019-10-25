@@ -4,6 +4,7 @@
  * Proposed Version: PHP 8.0
  * RFC PR: [php/php-rfcs#0001](https://github.com/php/php-rfcs/pull/1)
  * Mailing list thread: https://externals.io/message/106844
+ * Implementation: [php/php-src#4838](https://github.com/php/php-src/pull/4838)
 
 # Introduction
 
@@ -390,7 +391,7 @@ $rt = (new ReflectionFunction('test3'))->getReturnType();
 var_dump(get_class($rt));    // "ReflectionNamedType"
 var_dump($rt->allowsNull()); // true
 var_dump($rt->getName());    // "int"
-var_dump((string) $rt);      // "int" (deprecated)
+var_dump((string) $rt);      // "?int"
 ```
 
 # Backwards Incompatible Changes
