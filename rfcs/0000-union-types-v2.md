@@ -2,6 +2,7 @@
  * Date: 2019-09-02
  * Author: Nikita Popov <nikic@php.net>
  * Proposed Version: PHP 8.0
+ * **Final RFC and Vote**: https://wiki.php.net/rfc/union_types_v2
  * RFC PR: [php/php-rfcs#0001](https://github.com/php/php-rfcs/pull/1)
  * Mailing list thread: https://externals.io/message/106844
  * Implementation: [php/php-src#4838](https://github.com/php/php-src/pull/4838)
