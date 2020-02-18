@@ -79,7 +79,7 @@ On the positive side, P++ would allow us to make some more radical changes than 
 
 "Editions" are a concept popularized by the Rust programming language. See the [edition guide](https://doc.rust-lang.org/edition-guide/editions/index.html) and the [epoch RFC](https://github.com/rust-lang/rfcs/blob/master/text/2052-epochs.md) for more information.
 
-Editions are specified at the package (in Rust: crate) level, and opt-in to a bundled set of backwards-incompatible changes. Different packages using different editions remain compatible. Editions are intended to be supported forever, and there are some limitations on what kind of changes are permitted in editions (one of the significant limitations is that no standard library changes are allowed).
+Editions are specified at the package (in Rust: crate) level, and opt-in to a bundled set of backwards-incompatible changes. Different packages using different editions remain compatible. Editions in Rust are intended to be supported forever, though we may adopt a different [support timeline](#maintenance-burden-and-support-timeline). There are also some limitations on what kind of changes are permitted in editions (one of the significant limitations is that no standard library changes are allowed, something we would likely want to adopt as well).
 
 Editions were also intended to serve as a rallying point from a marketing perspective, though I believe that this coupling between a purely technical mechanism and the marketing angle was found to be confusing and detrimental in hindsight.
 
