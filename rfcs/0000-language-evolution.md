@@ -50,6 +50,12 @@ This RFC is interesting in that it not only adds new errors, but also changes be
 
 A [`function_and_const_lookup='global'`](https://wiki.php.net/rfc/use_global_elements) declare has been proposed and declined recently. While this particular proposal was declined, we may still wish to consider other name resolution changes that bring the rules for functions/constants and classes in line.
 
+## String interpolation changes
+
+The [arbitrary expression interpolation](https://wiki.php.net/rfc/arbitrary_expression_interpolation) RFC proposes to introduce the `"foo #{1 + 1} bar"` syntax for interpolating arbitrary expressions. This poses a minor backwards-compatibility break, because currently `#{}` is allowed inside strings and does not have special meaning. A backwards-compatibility break could be avoided by making the syntax opt-in. It would even be possible to use the `"foo {1 + 1} bar"` syntax, though whether that is a good idea is a different question.
+
+This example is interesting, because it involves a change to the PHP lexer, while all the previous examples involved changes to the compiler or runtime.
+
 # Approaches
 
 Three general approaches (more in terms of philosophy than technical detail) have been discussed in the past and are summarized here.
