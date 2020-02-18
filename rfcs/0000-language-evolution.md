@@ -2,7 +2,7 @@
  * Date: 2020-02-18
  * Author: Nikita Popov <nikic@php.net>
  * Proposed Version: PHP 8.0
- * RFC PR: [php-src/rfcs#0002](https://github.com/php-src/rfcs/pull/2)
+ * RFC PR: [php/php-rfcs#0002](https://github.com/php/php-rfcs/pull/2)
 
 # Introduction
 
