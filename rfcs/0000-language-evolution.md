@@ -111,6 +111,8 @@ Second, packages will very likely want to use one language dialect for the entir
 
 A minor variation on the preceding variant: Instead of using declares, a new opening tag can be introduced. Once again this only works for P++ `<?p++` or editions `<?php2020`. This has essentially the same characteristics as per-file declares. It is slightly more compact, but introduces new syntax.
 
+A suggestion that has been made during the discussion is that a new file extension could be used as well. This is only compatible with P++, otherwise all files in a project would have to be renamed on each edition upgrade. Using a file extension also has other disadvantages: It would not work in cases where the file extension is not known, for example if a script is piped into PHP, read from stdin, or coming from a non-filesystem stream. A new extension increases the chance of code-leaks on servers not aware of the new configuration.
+
 ## Namespace-scoped declares
 
 This variant is explored in more detail in the [namespace-scoped declares](https://wiki.php.net/rfc/namespace_scoped_declares) RFC. This proposal allows specifying declares for a whole namespace (including sub-namespaces):
