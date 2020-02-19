@@ -68,7 +68,7 @@ The idea behind P++ is that a new language is introduced, which shares an implem
 
 I think there are a number of problems with this approach, and they all essentially come down to P++ being "one big change":
 
- * There is only one chance to introduce backwards-incompatible changes. Once P++ is released, we are back to square once. Assuming that we will not manage to create the perfect language on the first try, it would be better to introduce a more sustainable mechanism.
+ * There is only one chance to introduce backwards-incompatible changes. Once P++ is released, we are back to square one. Assuming that we will not manage to create the perfect language on the first try, it would be better to introduce a more sustainable mechanism.
  * A one-time major change places a high upgrade burden. Depending on scope, it might be more akin to switching languages than upgrading the language version. This makes it less likely that old code will switch to P++.
  * If the divergence is too large, then it may be hard to ensure interoperability between PHP and P++. For example, while C and C++ are nominally compatible, in practice this requires exporting C++ code through a C-compatible FFI interface. This makes it fairly easy to integrate C in C++, but not the other way around. Hypothetically, if P++ introduced generics but PHP did not, it's not clear how they would interoperate.
  * Frankly, we just don't have the development resources to pull this off. This needs a concerted multi-year effort from a larger development team than we have right now; our resources are best invested elsewhere.
